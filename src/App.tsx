@@ -3,7 +3,6 @@ import './App.css';
 import { useTodos } from './hooks';
 import { ToodInput } from './components/TodoInput';
 import { TodoList } from './components/TodoList';
-import { ITodos } from './TodoInterface';
 
 function App(): JSX.Element {
   const {
