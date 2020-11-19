@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ITodo } from '../TodoInterface';
+import { ITodoListProps } from '../TodoInterface';
 
 interface ITextProps {
   isDone: boolean;
@@ -54,13 +54,11 @@ const Remove = styled.button`
   margin-left: 1em;
 `;
 
-interface Props {
-  todos: Array<ITodo>;
-  handleDone: (index: number) => void | undefined;
-  handleRemove: (index: number) => void | undefined;
-}
-
-const TodoList: React.FC<Props> = ({ todos, handleDone, handleRemove }) => {
+const TodoList: React.FC<ITodoListProps> = ({
+  todos,
+  handleDone,
+  handleRemove,
+}) => {
   return (
     <Container>
       <List>
@@ -68,10 +66,16 @@ const TodoList: React.FC<Props> = ({ todos, handleDone, handleRemove }) => {
           return (
             <Item key={`task-${index}`}>
               <ItemContainer isDone={item.done}>
-                <Text isDone={item.done} onClick={() => handleDone(index)}>
+                <Text
+                  title={item.done ? 'reopen task' : 'complete task'}
+                  isDone={item.done}
+                  onClick={() => handleDone(index)}
+                >
                   {item.text}
                 </Text>
-                <Remove onClick={() => handleRemove(index)}>x</Remove>
+                <Remove title="remove task" onClick={() => handleRemove(index)}>
+                  x
+                </Remove>
               </ItemContainer>
             </Item>
           );

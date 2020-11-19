@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { ITodoInputProps } from '../TodoInterface';
 
 const Form = styled.form`
   width: 100%;
@@ -27,13 +28,11 @@ const AddButton = styled.button`
   padding: 0 1.5rem;
 `;
 
-interface Props {
-  text: string;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-}
-
-const ToodInput: React.FC<Props> = ({ text, handleChange, handleClick }) => {
+const ToodInput: React.FC<ITodoInputProps> = ({
+  text,
+  handleChange,
+  handleClick,
+}) => {
   return (
     <Form>
       <Container>

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { ITodo } from './TodoInterface';
+import { ITodo, ITodos } from './TodoInterface';
 
-// eslint-disable-next-line
-const useTodos = () => {
+const useTodos = (): ITodos => {
   const [todo, setTodo] = useState<ITodo>({ text: '', done: false });
   const [todos, setTodos] = useState<Array<ITodo>>([]);
 
