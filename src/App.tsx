@@ -1,25 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
+import { useTodos } from './hooks';
 import { ToodInput } from './components/TodoInput';
-import { ToodList } from './components/TodoList';
-
-interface Todo {
-  text: string;
-}
+import { TodoList } from './components/TodoList';
+import { ITodos } from './TodoInterface';
 
 function App(): JSX.Element {
-  const [todos, setTodos] = useState<Array<Todo>>([]);
-  const [todo, setTodo] = useState<Todo>({ text: '' });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTodo({ text: e.target.value });
-  };
-
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    if (todo.text) setTodos([...todos, todo]);
-    setTodo({ text: '' });
-  };
+  const {
+    todo,
+    todos,
+    handleChange,
+    handleClick,
+    handleDone,
+    handleRemove,
+  } = useTodos();
 
   return (
     <div className="App">
@@ -32,8 +26,11 @@ function App(): JSX.Element {
         />
       </header>
       <main>
-        <h2>Todos:</h2>
-        <ToodList todos={todos} />
+        <TodoList
+          todos={todos}
+          handleDone={handleDone}
+          handleRemove={handleRemove}
+        />
       </main>
     </div>
   );

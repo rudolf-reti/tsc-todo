@@ -1,5 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { ITodo } from '../TodoInterface';
+
+interface ITextProps {
+  isDone: boolean;
+}
 
 const Container = styled.div`
   display: flex;
@@ -12,6 +17,13 @@ const ItemContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: left;
+  ${(props: ITextProps) =>
+    props.isDone &&
+    `&:before {
+        content: '\u2713';
+        color: green;
+        margin-right: 0.1em;
+    }`}
 `;
 
 const List = styled.ol`
@@ -21,37 +33,45 @@ const List = styled.ol`
 `;
 
 const Item = styled.li`
-  font-weight: bold;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1.2em;
   margin: 1rem 2rem;
 `;
 
-const Check = styled.input`
-  margin-right: 0.5rem;
+const Text = styled.div`
+  text-decoration: ${(props: ITextProps) =>
+    props.isDone ? 'line-through' : 'none'};
+  color: ${(props: ITextProps) => (props.isDone ? 'grey' : 'black')};
 `;
 
-interface Todo {
-  text: string;
-}
+const Remove = styled.button`
+  background-color: white;
+  border: 1px solid #282c34;
+  color: #282c34;
+  cursor: pointer;
+  font-weight: 500;
+  margin-left: 1em;
+`;
 
 interface Props {
-  todos: Array<Todo>;
+  todos: Array<ITodo>;
+  handleDone: (index: number) => void | undefined;
+  handleRemove: (index: number) => void | undefined;
 }
 
-const ToodList: React.FC<Props> = ({ todos }) => {
+const TodoList: React.FC<Props> = ({ todos, handleDone, handleRemove }) => {
   return (
     <Container>
       <List>
         {todos.map((item, index) => {
           return (
-            <Item key={`task-title-${index}`}>
-              <ItemContainer>
-                <Check
-                  type="checkbox"
-                  key={`task-${index}`}
-                  name={`task-${index}`}
-                  value={index}
-                />
-                <div>{item.text}</div>
+            <Item key={`task-${index}`}>
+              <ItemContainer isDone={item.done}>
+                <Text isDone={item.done} onClick={() => handleDone(index)}>
+                  {item.text}
+                </Text>
+                <Remove onClick={() => handleRemove(index)}>x</Remove>
               </ItemContainer>
             </Item>
           );
@@ -61,4 +81,4 @@ const ToodList: React.FC<Props> = ({ todos }) => {
   );
 };
 
-export { ToodList };
+export { TodoList };
