@@ -1,24 +1,51 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
-function App() {
+interface Todo {
+  title: string;
+}
+
+function App(): JSX.Element {
+  const [todos, setTodos] = useState<Array<Todo>>([]);
+  const [todo, setTodo] = useState<Todo>({ title: '' });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTodo({ title: e.target.value });
+  };
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    if (todo.title) setTodos([...todos, todo]);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+        <h1>Todo App</h1>
+        <h2>Add todo:</h2>
+        <form>
+          <input
+            type="text"
+            name="todo"
+            id="todo"
+            placeholder="Add a task..."
+            onChange={(e) => handleChange(e)}
+          />
+          <button onClick={(e) => handleClick(e)}>Add</button>
+        </form>
       </header>
+      <main>
+        <h2>Todos:</h2>
+        <ul>
+          {todos.map((item, index) => {
+            return (
+              <li key={index}>
+                <strong>{item.title}</strong>
+              </li>
+            );
+          })}
+        </ul>
+      </main>
     </div>
   );
 }
